@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="DVDManagementSoftware:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>DVDManagementSoftware</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="DVDManagementSoftware-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="DVDManagementSoftware:war exploded" />
+    </root>
+  </artifact>
+</component>
