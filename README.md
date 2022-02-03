@@ -17,13 +17,11 @@ This is a project made for the course Software Technology
 git clone https://stech22/dvd-management-software
 ```
 
-```
-Import the program into an IDE(Intellij IDEA, Eclipse, Netbeans ...) for convinience
-```
 
-```
+Import the program into an IDE(Intellij IDEA, Eclipse, Netbeans ...) for convinience
+
 Download Tomcat into a folder and extract the file and set it up with preferred IDE
-```
+
 - [Tomcat](https://tomcat.apache.org/download-90.cgi)
 
 
@@ -34,7 +32,7 @@ First create the database
 CREATE DATABASE dvdMS;
 ```
 
-And change the credentials in the file Database.java
+And change the credentials in the file [Database.java](https://github.com/stech2022/dvd-management-software/blob/main/src/main/java/com/example/dvdmanagementsoftware/database/Database.java)
 ```
  String url = "jdbc:mysql://0.0.0.0:3306/dvdMS?allowPublicKeyRetrieval=true&useSSL=false";
  String username = "root";
@@ -44,9 +42,8 @@ And change the credentials in the file Database.java
 ### Endpoints
 
 A collection of endpoints have been created for fast testing in the file 
-```
-DVDManagementSoftware.postman_collection.json
-```
+
+[DVDManagementSoftware.postman_collection.json](https://github.com/stech2022/dvd-management-software/blob/main/DVDManagementSoftware.postman_collection.json)
 
 You just have to import it in Postman and all the available endpoints will
 be ready.
