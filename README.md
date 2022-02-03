@@ -47,3 +47,7 @@ A collection of endpoints have been created for fast testing in the file
 
 You just have to import it in Postman and all the available endpoints will
 be ready.
+
+### Video proof of concept
+
+[Download](https://github.com/stech2022/dvd-management-software/blob/main/dvdms.mp4)
