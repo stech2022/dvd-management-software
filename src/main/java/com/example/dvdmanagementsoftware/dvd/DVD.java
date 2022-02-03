@@ -1,8 +1,4 @@
 package com.example.dvdmanagementsoftware.dvd;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
-@XmlRootElement
 public class DVD {
     private int id;
     private String title;
@@ -32,6 +28,30 @@ public class DVD {
             int units
     ) {
         this.id = id;
+        this.title = title;
+        this.actors = actors;
+        this.director = director;
+        this.produceDate = produceDate;
+        this.duration = duration;
+        this.languages = languages;
+        this.subtitles = subtitles;
+        this.category = category;
+        this.price = price;
+        this.units = units;
+    }
+
+    public DVD(
+            String title,
+            String actors,
+            String director,
+            String produceDate,
+            int duration,
+            String languages,
+            String subtitles,
+            String category,
+            double price,
+            int units
+    ) {
         this.title = title;
         this.actors = actors;
         this.director = director;
