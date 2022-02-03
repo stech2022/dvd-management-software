@@ -1,23 +1,31 @@
 package com.example.dvdmanagementsoftware.shoppingcard;
 
-import com.example.dvdmanagementsoftware.dvd.DVD;
-import com.example.dvdmanagementsoftware.users.User;
-
-import java.util.HashMap;
+import java.util.ArrayList;
 
 public class ShoppingCard {
     private int id;
-    private User user;
+    private int user_id;
+    private int dvd_id;
     private int amount;
-    private HashMap<DVD,Integer> payments = new HashMap<DVD, Integer>();
+    private ArrayList<Integer> dvds = new ArrayList<>();
+    private ArrayList<Integer> prices = new ArrayList<>();
     private String creationDate;
     private String state;
 
     public ShoppingCard() {}
 
-    public ShoppingCard(int id, User user, int amount, String creationDate, String state) {
+    public ShoppingCard(int id, int user_id, int dvd_id, int amount, String creationDate, String state) {
         this.id = id;
-        this.user = user;
+        this.user_id = user_id;
+        this.dvd_id = dvd_id;
+        this.amount = amount;
+        this.creationDate = creationDate;
+        this.state = state;
+    }
+
+    public ShoppingCard(int user_id, int dvd_id, int amount, String creationDate, String state) {
+        this.user_id = user_id;
+        this.dvd_id = dvd_id;
         this.amount = amount;
         this.creationDate = creationDate;
         this.state = state;
@@ -31,12 +39,12 @@ public class ShoppingCard {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return user_id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserId(int user_id) {
+        this.user_id = user_id;
     }
 
     public int getAmount() {
@@ -47,12 +55,12 @@ public class ShoppingCard {
         this.amount = amount;
     }
 
-    public HashMap<DVD, Integer> getPayments() {
-        return payments;
+    public int getDvd_id() {
+        return dvd_id;
     }
 
-    public void setPayments(DVD dvd, int payment) {
-        payments.put(dvd, payment);
+    public void setDvd_id(int dvd_id) {
+        this.dvd_id = dvd_id;
     }
 
     public String getCreationDate() {
