@@ -1,12 +1,17 @@
 package com.example.dvdmanagementsoftware.database;
 
+import com.example.dvdmanagementsoftware.dvd.DVD;
+import com.example.dvdmanagementsoftware.order.Order;
+import com.example.dvdmanagementsoftware.shoppingcard.ShoppingCard;
 import com.example.dvdmanagementsoftware.users.User;
+
 import java.sql.*;
 import java.util.ArrayList;
 
 public class Database {
     Connection connection = null;
     Statement statement;
+
     public Database() {
         String url = "jdbc:mysql://0.0.0.0:3306/dvdMS?allowPublicKeyRetrieval=true&useSSL=false";
         String username = "root";
@@ -27,7 +32,7 @@ public class Database {
             ResultSet rs = statement.executeQuery(sql);
             while (rs.next()) {
                 User u = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
-                        rs.getString(5),rs.getInt(6),
+                        rs.getString(5), rs.getInt(6),
                         rs.getString(7), rs.getString(8), rs.getString(9), rs.getString(10), rs.getString(11));
                 users.add(u);
             }
@@ -37,124 +42,379 @@ public class Database {
         return users;
     }
 
-        public User getUser(int id) {
-            String sql = "SELECT * FROM users WHERE id = " + id;
-            try {
-                statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery(sql);
-                if (rs.next()) {
-                    return new User(
-                            rs.getInt(1),
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            rs.getString(5),
-                            rs.getInt(6),
-                            rs.getString(7),
-                            rs.getString(8),
-                            rs.getString(9),
-                            rs.getString(10),
-                            rs.getString(11)
-                    );
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+    public User getUser(int id) {
+        String sql = "SELECT * FROM users WHERE id = " + id;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                return new User(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11)
+                );
             }
-            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        public boolean checkUsername(String username) {
-            String sql = "SELECT * FROM users WHERE username = '" + username + "'";
-            Statement statement;
-            try {
-                statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery(sql);
-                if (rs.next()) return true;
-            } catch (SQLException e) {e.printStackTrace();}
-            return false;
-        }
-
-        public User signIn(String username, String password) {
-            User user = null;
-            String sql = "SELECT * FROM users WHERE username = " + username + " and password = " + password;
-            Statement statement;
-            try {
-                statement = connection.createStatement();
-                ResultSet rs = statement.executeQuery(sql);
-                if (rs.next()) {
-                    return new User(
-                            rs.getInt(1),
-                            rs.getString(2),
-                            rs.getString(3),
-                            rs.getString(4),
-                            rs.getString(5),
-                            rs.getInt(6),
-                            rs.getString(7),
-                            rs.getString(8),
-                            rs.getString(9),
-                            rs.getString(10),
-                            rs.getString(11)
-                    );
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        public boolean newUser(User user) {
-            if (user.getUsername() == null) return false;
-            if (user.getPassword() == null) return false;
-            boolean exists = checkUsername(user.getUsername());
-            if (!exists) {
-                String sql = "insert into users values (?,?,?,?,?,?,?,?,?,?,?)";
-                try {
-                    PreparedStatement st = connection.prepareStatement(sql);
-                    st.setInt(1, user.getId());
-                    st.setString(2, user.getUsername());
-                    st.setString(3, user.getPassword());
-                    st.setString(4, user.getFirstName());
-                    st.setString(5, user.getLastName());
-                    st.setInt(6, user.getRole());
-                    st.setString(7, user.getAddress());
-                    st.setString(8, user.getCardType());
-                    st.setString(9, user.getCardNumber());
-                    st.setString(10, user.getCardExpirationDate());
-                    st.setString(11, user.getCardCVV());
-                    st.executeUpdate();
-                    return true;
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-            return false;
-        }
-
-        public boolean updatePassword(int id, String password) {
-            String sql = "UPDATE users SET password = ? where id = ?";
-            try {
-                PreparedStatement statement = connection.prepareStatement(sql);
-                statement.setString(1, password);
-                statement.setInt(2, id);
-                statement.executeUpdate();
-                return true;
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            return true;
-        }
-
-        public boolean deleteUser(int id) {
-            String sql = "delete from users where id = ?";
-            PreparedStatement preparedStatement;
-            try {
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setInt(1, id);
-                preparedStatement.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                return false;
-            }
-            return true;
-        }
+        return null;
     }
+
+    public boolean checkUsername(String username) {
+        String sql = "SELECT * FROM users WHERE username = '" + username + "'";
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public User signIn(String username, String password) {
+        User user = null;
+        String sql = "SELECT * FROM users WHERE username = '" + username + "' and password = '" + password + "'";
+        Statement statement;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                return new User(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        rs.getString(11)
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean newUser(User user) {
+        if (user.getUsername() == null) return false;
+        if (user.getPassword() == null) return false;
+        boolean exists = checkUsername(user.getUsername());
+        if (exists) return false;
+
+        String sql = "insert into users values (?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, user.getId());
+            st.setString(2, user.getUsername());
+            st.setString(3, user.getPassword());
+            st.setString(4, user.getFirstName());
+            st.setString(5, user.getLastName());
+            st.setInt(6, user.getRole());
+            st.setString(7, user.getAddress());
+            st.setString(8, user.getCardType());
+            st.setString(9, user.getCardNumber());
+            st.setString(10, user.getCardExpirationDate());
+            st.setString(11, user.getCardCVV());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updatePassword(int id, String password) {
+        String sql = "UPDATE users SET password = ? where id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, password);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteUser(int id) {
+        String sql = "delete from users where id = ?";
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public ArrayList<DVD> getDVDS() {
+        ArrayList<DVD> dvds = new ArrayList<>();
+        String sql = "select * from dvd";
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                DVD d = new DVD(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
+                        rs.getString(5), rs.getInt(6),
+                        rs.getString(7), rs.getString(8), rs.getString(9), rs.getDouble(10), rs.getInt(11));
+                dvds.add(d);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return dvds;
+    }
+
+    public DVD getDVD(int id) {
+        String sql = "SELECT * FROM dvd WHERE id = " + id;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                return new DVD(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getInt(6),
+                        rs.getString(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getDouble(10),
+                        rs.getInt(11)
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean newDVD(DVD dvd) {
+        String sql = "insert into dvd values (?,?,?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, dvd.getId());
+            st.setString(2, dvd.getTitle());
+            st.setString(3, dvd.getActors());
+            st.setString(4, dvd.getDirector());
+            st.setString(5, dvd.getProduceDate());
+            st.setInt(6, dvd.getDuration());
+            st.setString(7, dvd.getLanguages());
+            st.setString(8, dvd.getSubtitles());
+            st.setString(9, dvd.getCategory());
+            st.setDouble(10, dvd.getPrice());
+            st.setInt(11, dvd.getUnits());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean deleteDVD(int id) {
+        String sql = "delete from dvd where id = ?";
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public ArrayList<ShoppingCard> getShoppingCards() {
+        ArrayList<ShoppingCard> shoppingCards = new ArrayList<>();
+        String sql = "select * from shopping_card";
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                ShoppingCard s = new ShoppingCard(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getString(5),
+                        rs.getString(6)
+                );
+                shoppingCards.add(s);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return shoppingCards;
+    }
+
+    public ShoppingCard getShoppingCard(int id) {
+        String sql = "SELECT * FROM shopping_card WHERE id = " + id;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                return new ShoppingCard(
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getString(5),
+                        rs.getString(6)
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean deleteShoppingCard(int id) {
+        String sql = "delete from shopping_card where id = ?";
+        PreparedStatement preparedStatement;
+        try {
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean newShoppingCard(ShoppingCard shoppingCard) {
+        String sql = "insert into shopping_card values (?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, shoppingCard.getId());
+            st.setInt(2, shoppingCard.getUserId());
+            st.setInt(3, shoppingCard.getDvd_id());
+            st.setInt(4, shoppingCard.getAmount());
+            st.setString(5, shoppingCard.getCreationDate());
+            st.setString(6, shoppingCard.getState());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeStateShoppingCard(int id, String state) {
+        String sql = "UPDATE shopping_card SET state = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, state);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public ArrayList<Order> getOrders() {
+        ArrayList<Order> orders = new ArrayList<>();
+        String sql = "select * from orders";
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            while (rs.next()) {
+                Order o = new Order(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)
+                );
+                orders.add(o);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+    public Order getOrder(int id) {
+        String sql = "SELECT * FROM orders WHERE id = " + id;
+        try {
+            statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            if (rs.next()) {
+                return new Order(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public boolean newOrder(Order order) {
+        String sql = "insert into orders values (?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, order.getId());
+            st.setString(2, order.getAddress());
+            st.setInt(3, order.getShoppingCardId());
+            st.setInt(4, order.getUserId());
+            st.setString(5, order.getState());
+            st.setString(6, order.getCreationDate());
+            st.setString(7, order.getCompletedDate());
+            st.setString(8, order.getDvdIds());
+            st.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean changeStateOrder(int id, String state) {
+        String sql = "UPDATE orders SET state = ? WHERE id = ?";
+        try {
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, state);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+}
