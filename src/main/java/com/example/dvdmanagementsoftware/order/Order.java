@@ -1,29 +1,34 @@
 package com.example.dvdmanagementsoftware.order;
 
-import com.example.dvdmanagementsoftware.shoppingcard.ShoppingCard;
-import com.example.dvdmanagementsoftware.users.User;
-
-import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 
-@XmlRootElement
 public class Order {
     private int id;
     private String address;
-    private ShoppingCard shoppingCard;
-    private User user;
+    private int shoppingCardId;
+    private int userId;
     private String state;
     private String creationDate;
     private String completedDate;
-    private ArrayList<Integer> dvdIds = new ArrayList<Integer>();
+    private String dvdIds;
 
     public Order() {}
 
-    public Order(int id, String address, ShoppingCard shoppingCard, User user, String state, String creationDate, String completedDate, ArrayList<Integer> dvdIds) {
+    public Order(int id, String address, int shoppingCardId, int userId, String state, String creationDate, String completedDate, String dvdIds) {
         this.id = id;
         this.address = address;
-        this.shoppingCard = shoppingCard;
-        this.user = user;
+        this.shoppingCardId = shoppingCardId;
+        this.userId = userId;
+        this.state = state;
+        this.creationDate = creationDate;
+        this.completedDate = completedDate;
+        this.dvdIds = dvdIds;
+    }
+
+    public Order(String address, int shoppingCardId, int userId, String state, String creationDate, String completedDate, String dvdIds) {
+        this.address = address;
+        this.shoppingCardId = shoppingCardId;
+        this.userId = userId;
         this.state = state;
         this.creationDate = creationDate;
         this.completedDate = completedDate;
@@ -46,20 +51,20 @@ public class Order {
         this.address = address;
     }
 
-    public ShoppingCard getShoppingCard() {
-        return shoppingCard;
+    public int getShoppingCardId() {
+        return shoppingCardId;
     }
 
-    public void setShoppingCard(ShoppingCard shoppingCard) {
-        this.shoppingCard = shoppingCard;
+    public void setShoppingCardId(int shoppingCardId) {
+        this.shoppingCardId = shoppingCardId;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(int userId) {
+        this.userId = userId;
     }
 
     public String getState() {
@@ -86,11 +91,11 @@ public class Order {
         this.completedDate = completedDate;
     }
 
-    public ArrayList<Integer> getDvdIds() {
+    public String getDvdIds() {
         return dvdIds;
     }
 
-    public void setDvdIds(ArrayList<Integer> dvdIds) {
+    public void setDvdIds(String dvdIds) {
         this.dvdIds = dvdIds;
     }
 }
