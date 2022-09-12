@@ -22,8 +22,13 @@ Import the program into an IDE(Intellij IDEA, Eclipse, Netbeans ...) for convini
 
 Download Tomcat into a folder and extract the file and set it up with preferred IDE
 
-- [Tomcat](https://tomcat.apache.org/download-90.cgi)
+- [Tomcat](https://tomcat.apache.org/download-90.cgi) -> Tested in 9.0.65 Version
 
+### How to setup in Intellij IDEA Community
+
+- Import the project
+- Download the free plugin SmartTomcat (File -> Settings -> Plugins)
+- Edit configurations and make the setup for Tomcat and JUnit
 
 ### Setup MySQL
 
