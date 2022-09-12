@@ -7,12 +7,14 @@ public class User {
     private String password;
     private String firstName;
     private String lastName;
-    private int role;
+    private String role;
     private String address;
     private String cardType;
     private String cardNumber;
     private String cardExpirationDate;
     private String cardCVV;
+
+    private String token;
 
     public User() {}
 
@@ -21,12 +23,13 @@ public class User {
                 String password,
                 String firstName,
                 String lastName,
-                int role,
+                String role,
                 String address,
                 String cardType,
                 String cardNumber,
                 String cardExpirationDate,
-                String cardCVV
+                String cardCVV,
+                String token
     ) {
         this.id = id;
         this.username = username;
@@ -39,6 +42,7 @@ public class User {
         this.cardNumber = cardNumber;
         this.cardExpirationDate = cardExpirationDate;
         this.cardCVV = cardCVV;
+        this.token = token;
     }
 
     public User(
@@ -46,12 +50,13 @@ public class User {
                 String password,
                 String firstName,
                 String lastName,
-                int role,
+                String role,
                 String address,
                 String cardType,
                 String cardNumber,
                 String cardExpirationDate,
-                String cardCVV
+                String cardCVV,
+                String token
     ) {
         this.username = username;
         this.password = password;
@@ -63,6 +68,7 @@ public class User {
         this.cardNumber = cardNumber;
         this.cardExpirationDate = cardExpirationDate;
         this.cardCVV = cardCVV;
+        this.token = token;
     }
 
     public int getId() {
@@ -105,11 +111,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public int getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(int role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -153,8 +159,17 @@ public class User {
         this.cardCVV = cardCVV;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public String toString() {
         return firstName;
     }
+
 }

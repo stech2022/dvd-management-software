@@ -1,6 +1,9 @@
 package com.example.dvdmanagementsoftware.dvd;
 
 import com.example.dvdmanagementsoftware.database.Database;
+import com.example.dvdmanagementsoftware.errors.Error;
+import com.example.dvdmanagementsoftware.errors.Message;
+import com.example.dvdmanagementsoftware.users.Role;
 import org.json.JSONObject;
 
 import javax.ws.rs.*;
@@ -35,9 +38,13 @@ public class DVDResources {
     }
 
     @POST
-    @Path("/new")
+    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response newDVD(String dvd) {
+    public Response newDVD(String dvd, @HeaderParam("token") String givenToken) {
+        boolean isAuthenticated = db.authenticate(givenToken, Role.ADMIN + "/" + Role.EMPLOYEE, "");
+        if (!isAuthenticated) {
+            return Response.status(Response.Status.NOT_FOUND).entity(new Error("User authentication failed!")).build();
+        }
         JSONObject obj = new JSONObject(dvd);
         try {
             String title = obj.getString("title");
@@ -52,18 +59,27 @@ public class DVDResources {
             int units = obj.getInt("units");
             DVD d = new DVD(title, actors, director, produceDate, duration, languages, subtitles, category, price, units);
             boolean status = db.newDVD(d);
-            if (status) return Response.ok("Success : DVD registered successfully", MediaType.TEXT_HTML).build();
+            if (status) return Response.status(Response.Status.OK).entity(new Message("DVD registered successfully")).build();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return Response.ok("Error: Something went wrong!", MediaType.TEXT_HTML).build();
+        return Response.status(Response.Status.NOT_FOUND).entity(new Error("Something went wrong!")).build();
     }
 
-    @POST
-    @Path("/{id}/delete")
-    public Response deleteDVD(@PathParam("id") int id) {
+    @DELETE
+    @Path("/{id}")
+    public Response deleteDVD(@PathParam("id") int id, @HeaderParam("token") String givenToken) {
+        boolean isAuthenticated = db.authenticate(givenToken, Role.ADMIN + "/" + Role.EMPLOYEE, "");
+        if (!isAuthenticated) {
+            return Response.status(Response.Status.NOT_FOUND).entity(new Error("User authentication failed!")).build();
+        }
         boolean status = db.deleteDVD(id);
-        if(status) return Response.ok("DVD deleted successfully", MediaType.TEXT_HTML).build();
-        return Response.ok("Error: DVD deletion failed!", MediaType.TEXT_HTML).build();
+        String msg = "DVD deletion failed";
+        Response.Status status1 = Response.Status.NOT_FOUND;
+        if (status) {
+            msg = "DVD deleted successfully";
+            status1 = Response.Status.OK;
+        }
+        return Response.status(status1).entity(msg).build();
     }
 }

@@ -1,6 +1,8 @@
 package com.example.dvdmanagementsoftware.users;
 
 import com.example.dvdmanagementsoftware.database.Database;
+import com.example.dvdmanagementsoftware.errors.Error;
+import com.example.dvdmanagementsoftware.errors.Message;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -14,7 +16,11 @@ public class UserResources {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUsers() {
+    public Response getUsers(@HeaderParam("token") String givenToken) {
+        boolean isAuthenticated = db.authenticate(givenToken, Role.ADMIN + "/" + Role.EMPLOYEE, "");
+        if (!isAuthenticated) {
+            return Response.status(Response.Status.NOT_FOUND).entity(new Error("User authentication failed!")).build();
+        }
         List<User> users = db.getUsers();
         System.out.println("Info: Found " + users.size() + " user(s) on DB");
         return Response
@@ -26,7 +32,11 @@ public class UserResources {
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getUser(@PathParam("id") int id) {
+    public Response getUser(@PathParam("id") int id, @HeaderParam("token") String givenToken) {
+        boolean isAuthenticated = db.authenticate(givenToken, Role.ADMIN + "/" + Role.EMPLOYEE + "/" + Role.CUSTOMER, id+"");
+        if (!isAuthenticated) {
+            return Response.status(Response.Status.NOT_FOUND).entity(new Error("User authentication failed!")).build();
+        }
         User u = db.getUser(id);
         return Response
                 .status(Response.Status.OK)
@@ -35,69 +45,39 @@ public class UserResources {
     }
 
     @POST
-    @Path("/signup")
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response signUp(String user) {
-        try {
-            JSONObject obj = new JSONObject(user);
-            String username = obj.getString("username");
-            String password = obj.getString("password");
-            String firstname = obj.getString("firstName");
-            String lastname = obj.getString("lastName");
-            int role = 1;
-            String address = obj.getString("address");
-            String cardType = obj.getString("cardType");
-            String cardNumber = obj.getString("cardNumber");
-            String cardExpirationNumber = obj.getString("cardExpirationDate");
-            String cardCVV = obj.getString("cardCVV");
-            User u = new User(username, password, firstname, lastname, role, address, cardType, cardNumber, cardExpirationNumber, cardCVV);
-            boolean status = db.newUser(u);
-            if (status) return Response.ok("Success : User registered successfully", MediaType.TEXT_HTML).build();
-            return Response.ok("Error: Username already exists!", MediaType.TEXT_HTML).build();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return Response.ok("Error: Something went wrong!", MediaType.TEXT_HTML).build();
-    }
-
-    @POST
-    @Path("/signin")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response signIn(String credentials) {
-        try {
-            JSONObject obj2 = new JSONObject(credentials);
-            String username = obj2.getString("username");
-            String password = obj2.getString("password");
-            User user = db.signIn(username, password);
-            if (user != null) return Response.ok("Signed in successfully!", MediaType.TEXT_HTML).build();
-            return Response.ok("Error: Invalid password or username!", MediaType.TEXT_HTML).build();
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return Response.ok("Error: Something went wrong!", MediaType.TEXT_HTML).build();
-    }
-
-    @POST
     @Path("/{id}/updatePassword")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response updatePassword(@PathParam("id") int id, String password) {
+    public Response updatePassword(@PathParam("id") int id, String password, @HeaderParam("token") String givenToken) {
+        boolean isAuthenticated = db.authenticate(givenToken, "" + Role.CUSTOMER, id + "");
+        if (!isAuthenticated) {
+            return Response.status(Response.Status.NOT_FOUND).entity(new Error("User authentication failed!")).build();
+        }
         try {
             JSONObject obj3 = new JSONObject(password);
             String pass = obj3.getString("password");
             boolean status = db.updatePassword(id, pass);
-            if (status) return Response.ok("Password updated successfully!").build();
-            return Response.ok("Error: Password update failed!").build();
+            if (status) return Response.ok(new Message("Password updated successfully!")).build();
+            return Response.ok(new Error("Password update failed!")).build();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return Response.ok("Error: Something went wrong!", MediaType.TEXT_HTML).build();
+        return Response.status(Response.Status.NOT_FOUND).entity(new Error("Something went wrong!")).build();
     }
 
-    @POST
-    @Path("/{id}/delete")
-    public Response deleteUser(@PathParam("id") int id) {
+    @DELETE
+    @Path("/{id}")
+    public Response deleteUser(@PathParam("id") int id, @HeaderParam("token") String givenToken) {
+        boolean isAuthenticated = db.authenticate(givenToken, Role.ADMIN + "/" + Role.EMPLOYEE + "/" + Role.CUSTOMER, id+"");
+        if (!isAuthenticated) {
+            return Response.status(Response.Status.NOT_FOUND).entity(new Error("User authentication failed!")).build();
+        }
         boolean status = db.deleteUser(id);
-        if (status) return Response.ok("User deleted successfully!").build();
-        return Response.ok("Error: User deletion failed!").build();
+        String msg = "User deletion failed";
+        Response.Status status1 = Response.Status.NOT_FOUND;
+        if (status) {
+            msg = "User deleted successfully";
+            status1 = Response.Status.OK;
+        }
+        return Response.status(status1).entity(msg).build();
     }
 }
