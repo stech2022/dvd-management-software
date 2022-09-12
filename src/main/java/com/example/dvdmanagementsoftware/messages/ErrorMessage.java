@@ -1,17 +1,17 @@
-package com.example.dvdmanagementsoftware.errors;
+package com.example.dvdmanagementsoftware.messages;
 
 public class ErrorMessage {
-    private String error;
+    private String message;
 
-    public ErrorMessage(String error) {
-        this.error = error;
+    public ErrorMessage(String message) {
+        this.message = message;
     }
 
-    public String getError() {
-        return error;
+    public String getMessage() {
+        return message;
     }
 
-    public void setError(String error) {
-        this.error = error;
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

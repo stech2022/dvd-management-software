@@ -1,9 +1,9 @@
-package com.example.dvdmanagementsoftware.errors;
+package com.example.dvdmanagementsoftware.messages;
 
-public class Message {
+public class SuccessMessage {
     private String message;
 
-    public Message(String message) {
+    public SuccessMessage(String message) {
         this.message = message;
     }
 

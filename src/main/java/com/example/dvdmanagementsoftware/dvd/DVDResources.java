@@ -1,8 +1,8 @@
 package com.example.dvdmanagementsoftware.dvd;
 
 import com.example.dvdmanagementsoftware.database.Database;
-import com.example.dvdmanagementsoftware.errors.Error;
-import com.example.dvdmanagementsoftware.errors.Message;
+import com.example.dvdmanagementsoftware.messages.ErrorMessage;
+import com.example.dvdmanagementsoftware.messages.SuccessMessage;
 import com.example.dvdmanagementsoftware.users.Role;
 import org.json.JSONObject;
 
@@ -16,6 +16,7 @@ public class DVDResources {
     Database db = new Database();
 
     @GET
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDVDS(){
         List<DVD> dvds = db.getDVDS();
@@ -28,6 +29,7 @@ public class DVDResources {
 
     @GET
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDVD(@PathParam("id") int id){
         DVD d = db.getDVD(id);
@@ -38,12 +40,12 @@ public class DVDResources {
     }
 
     @POST
-    @Path("/")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response newDVD(String dvd, @HeaderParam("token") String givenToken) {
         boolean isAuthenticated = db.authenticate(givenToken, Role.ADMIN + "/" + Role.EMPLOYEE, "");
         if (!isAuthenticated) {
-            return Response.status(Response.Status.NOT_FOUND).entity(new Error("User authentication failed!")).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(new ErrorMessage("User authentication failed!")).build();
         }
         JSONObject obj = new JSONObject(dvd);
         try {
@@ -59,27 +61,26 @@ public class DVDResources {
             int units = obj.getInt("units");
             DVD d = new DVD(title, actors, director, produceDate, duration, languages, subtitles, category, price, units);
             boolean status = db.newDVD(d);
-            if (status) return Response.status(Response.Status.OK).entity(new Message("DVD registered successfully")).build();
+            if (status) return Response.status(Response.Status.OK).entity(new SuccessMessage("DVD registered successfully")).build();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return Response.status(Response.Status.NOT_FOUND).entity(new Error("Something went wrong!")).build();
+        return Response.status(Response.Status.NOT_FOUND).entity(new ErrorMessage("Something went wrong!")).build();
     }
 
     @DELETE
     @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response deleteDVD(@PathParam("id") int id, @HeaderParam("token") String givenToken) {
         boolean isAuthenticated = db.authenticate(givenToken, Role.ADMIN + "/" + Role.EMPLOYEE, "");
         if (!isAuthenticated) {
-            return Response.status(Response.Status.NOT_FOUND).entity(new Error("User authentication failed!")).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(new ErrorMessage("User authentication failed!")).build();
         }
         boolean status = db.deleteDVD(id);
-        String msg = "DVD deletion failed";
-        Response.Status status1 = Response.Status.NOT_FOUND;
         if (status) {
-            msg = "DVD deleted successfully";
-            status1 = Response.Status.OK;
+            return Response.status(Response.Status.OK).entity(new SuccessMessage("DVD deleted successfully")).build();
         }
-        return Response.status(status1).entity(msg).build();
+        return Response.status(Response.Status.NOT_FOUND).entity(new ErrorMessage("DVD deletion failed")).build();
     }
 }

@@ -1,8 +1,8 @@
 package com.example.dvdmanagementsoftware;
 
 import com.example.dvdmanagementsoftware.database.Database;
-import com.example.dvdmanagementsoftware.errors.Error;
-import com.example.dvdmanagementsoftware.errors.Message;
+import com.example.dvdmanagementsoftware.messages.ErrorMessage;
+import com.example.dvdmanagementsoftware.messages.SuccessMessage;
 import com.example.dvdmanagementsoftware.users.Role;
 import com.example.dvdmanagementsoftware.users.User;
 import org.json.JSONObject;
@@ -17,6 +17,7 @@ public class DVDManagementSoftwareResources {
     @POST
     @Path("/signup")
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response signUp(String user) {
         try {
             JSONObject obj = new JSONObject(user);
@@ -31,16 +32,17 @@ public class DVDManagementSoftwareResources {
             String cardCVV = obj.getString("cardCVV");
             User u = new User(username, password, firstname, lastname, String.valueOf(Role.CUSTOMER), address, cardType, cardNumber, cardExpirationNumber, cardCVV, "");
             boolean status = db.newUser(u);
-            if (status) Response.status(Response.Status.OK).entity(new Message("Success : User registered successfully")).build();
-            return Response.status(Response.Status.NOT_FOUND).entity(new Error("Username already exists!")).build();
+            if (status) return Response.status(Response.Status.OK).entity(new SuccessMessage("Success : User registered successfully")).build();
+            return Response.status(Response.Status.NOT_FOUND).entity(new ErrorMessage("Username already exists!")).build();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return Response.status(Response.Status.NOT_FOUND).entity(new Error("Error: Something went wrong!")).build();
+        return Response.status(Response.Status.NOT_FOUND).entity(new ErrorMessage("Error: Something went wrong!")).build();
     }
 
     @POST
     @Path("/signin")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response signIn(String credentials) {
         try {
@@ -58,7 +60,7 @@ public class DVDManagementSoftwareResources {
             System.out.println(e.getMessage());
         }
 
-        return Response.status(Response.Status.NOT_FOUND).entity(new Error("User not found!")).build();
+        return Response.status(Response.Status.NOT_FOUND).entity(new ErrorMessage("User not found!")).build();
     }
 
 }
