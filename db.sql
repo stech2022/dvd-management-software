@@ -11,33 +11,40 @@ CREATE TABLE `users`
     `password`           varchar(255) DEFAULT NULL,
     `firstName`          varchar(255) DEFAULT NULL,
     `lastName`           varchar(255) DEFAULT NULL,
-    `role`               int          DEFAULT NULL,
+    `role`               varchar(255) DEFAULT NULL,
     `address`            varchar(255) DEFAULT NULL,
     `cardType`           varchar(255) DEFAULT NULL,
     `cardNumber`         varchar(255) DEFAULT NULL,
     `cardExpirationDate` varchar(255) DEFAULT NULL,
     `cardCVV`            varchar(255) DEFAULT NULL,
+    `token`              varchar(255) DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
 
 INSERT INTO `users`
-VALUES (1, 'User 01', 'password', 'John', 'Doe', 1, 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111');
+VALUES (1, 'admin', 'admin', 'Admin', 'Admin', 'ADMIN', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
 INSERT INTO `users`
-VALUES (2, 'User 02', 'password', 'John', 'Doe', 1, 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111');
+VALUES (2, 'employee1', 'employee', 'Employee', 'Employee 1', 'EMPLOYEE', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
 INSERT INTO `users`
-VALUES (3, 'User 03', 'password', 'John', 'Doe', 1, 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111');
+VALUES (3, 'employee2', 'employee', 'Employee', 'Employee 1', 'EMPLOYEE', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
 INSERT INTO `users`
-VALUES (4, 'User 04', 'password', 'John', 'Doe', 1, 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111');
+VALUES (4, 'user01', 'password', 'John', 'Doe', 'CUSTOMER', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
 INSERT INTO `users`
-VALUES (5, 'User 05', 'password', 'John', 'Doe', 1, 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111');
+VALUES (5, 'user02', 'password', 'John', 'Doe', 'CUSTOMER', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
 INSERT INTO `users`
-VALUES (6, 'User 06', 'password', 'John', 'Doe', 1, 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111');
+VALUES (6, 'user03', 'password', 'John', 'Doe', 'CUSTOMER', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
 INSERT INTO `users`
-VALUES (7, 'User 07', 'password', 'John', 'Doe', 1, 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111');
+VALUES (7, 'user04', 'password', 'John', 'Doe', 'CUSTOMER', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
 INSERT INTO `users`
-VALUES (8, 'User 08', 'password', 'John', 'Doe', 1, 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111');
+VALUES (8, 'user05', 'password', 'John', 'Doe', 'CUSTOMER', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
 INSERT INTO `users`
-VALUES (9, 'User 09', 'password', 'John', 'Doe', 1, 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111');
+VALUES (9, 'user06', 'password', 'John', 'Doe', 'CUSTOMER', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
+INSERT INTO `users`
+VALUES (10, 'user07', 'password', 'John', 'Doe', 'CUSTOMER', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
+INSERT INTO `users`
+VALUES (11, 'user08', 'password', 'John', 'Doe', 'CUSTOMER', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
+INSERT INTO `users`
+VALUES (12, 'user09', 'password', 'John', 'Doe', 'CUSTOMER', 'Address 00', 'Credit', '111 111 111 1111', '12/22', '111', '');
 
 CREATE TABLE `dvd`
 (
