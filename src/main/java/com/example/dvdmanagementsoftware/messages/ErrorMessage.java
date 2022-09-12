@@ -1,9 +1,9 @@
 package com.example.dvdmanagementsoftware.errors;
 
-public class Error {
+public class ErrorMessage {
     private String error;
 
-    public Error(String error) {
+    public ErrorMessage(String error) {
         this.error = error;
     }
 

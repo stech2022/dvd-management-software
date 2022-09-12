@@ -1,27 +1,39 @@
 {
 	"info": {
-		"_postman_id": "cd9c3cd1-1cb7-463c-ba83-6cf49997a589",
+		"_postman_id": "98907721-5866-45dc-b9c3-aa2f41ed83ed",
 		"name": "DVDManagementSoftware",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18619339"
 	},
 	"item": [
 		{
 			"name": "GetUsers",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/users/",
+					"raw": "http://localhost:8080/api/users",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
-						"users",
-						""
+						"users"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -31,16 +43,21 @@
 			"name": "GetUser",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/users/2",
+					"raw": "http://localhost:8080/api/users/2",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"users",
 						"2"
@@ -52,6 +69,9 @@
 		{
 			"name": "SignUp",
 			"request": {
+				"auth": {
+					"type": "noauth"
+				},
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -64,16 +84,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/users/signup",
+					"raw": "http://localhost:8080/api/auth/signup",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
-						"users",
+						"auth",
 						"signup"
 					]
 				}
@@ -87,7 +106,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"username\" : \"test\",\n    \"password\" : \"password123\"\n}",
+					"raw": "{\n    \"username\" : \"admin\",\n    \"password\" : \"admin\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -95,16 +114,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/users/signin",
+					"raw": "http://localhost:8080/api/auth/signin",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
-						"users",
+						"auth",
 						"signin"
 					]
 				}
@@ -115,7 +133,13 @@
 			"name": "UpdatePassword",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"password\" : \"test\"\n}",
@@ -126,14 +150,13 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/users/2/updatePassword",
+					"raw": "http://localhost:8080/api/users/2/updatePassword",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"users",
 						"2",
@@ -146,21 +169,25 @@
 		{
 			"name": "DeleteUser",
 			"request": {
-				"method": "POST",
-				"header": [],
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/users/3/delete",
+					"raw": "http://localhost:8080/api/users/44",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"users",
-						"3",
-						"delete"
+						"44"
 					]
 				}
 			},
@@ -170,18 +197,30 @@
 			"name": "GetDVDs",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/dvd",
+					"raw": "http://localhost:8080/api/dvd",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"dvd"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -191,16 +230,21 @@
 			"name": "GetDVD",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/dvd/3",
+					"raw": "http://localhost:8080/api/dvd/3",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"dvd",
 						"3"
@@ -212,21 +256,32 @@
 		{
 			"name": "DeleteDVD",
 			"request": {
-				"method": "POST",
-				"header": [],
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/dvd/2/delete",
+					"raw": "http://localhost:8080/api/dvd/19",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"dvd",
-						"2",
-						"delete"
+						"19"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -236,10 +291,16 @@
 			"name": "NewDVD",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"title\": \"Title 32\",\n    \"actors\": \"Actor 1, Actor 2\",\n    \"director\": \"Director\",\n    \"produceDate\": \"01/01/2022\",\n    \"duration\": 120,\n    \"languages\": \"English\",\n    \"subtitles\": \"Greek, English\",\n    \"category\": \"sciFy\",\n    \"price\": 19.0,\n    \"units\": 45\n}",
+					"raw": "{\n    \"title\": \"Title 36\",\n    \"actors\": \"Actor 1, Actor 2\",\n    \"director\": \"Director\",\n    \"produceDate\": \"01/01/2022\",\n    \"duration\": 120,\n    \"languages\": \"English\",\n    \"subtitles\": \"Greek, English\",\n    \"category\": \"sciFy\",\n    \"price\": 19.0,\n    \"units\": 45\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -247,17 +308,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/dvd/new",
+					"raw": "http://localhost:8080/api/dvd",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
-						"dvd",
-						"new"
+						"dvd"
 					]
 				}
 			},
@@ -267,16 +326,21 @@
 			"name": "GetShoppingCards",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/cards",
+					"raw": "http://localhost:8080/api/cards",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"cards"
 					]
@@ -288,16 +352,21 @@
 			"name": "GetShoppingCard",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/cards/1",
+					"raw": "http://localhost:8080/api/cards/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"cards",
 						"1"
@@ -309,21 +378,25 @@
 		{
 			"name": "DeleteShoppingCard",
 			"request": {
-				"method": "POST",
-				"header": [],
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/cards/1/delete",
+					"raw": "http://localhost:8080/api/cards/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"cards",
-						"1",
-						"delete"
+						"1"
 					]
 				}
 			},
@@ -333,7 +406,13 @@
 			"name": "CreateShoppingCard",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n        \"dvd_id\": 100,\n        \"amount\": 1,\n        \"creationDate\": \"01/01/2022\",\n        \"state\": \"completed\",\n        \"userId\": 4\n}",
@@ -344,17 +423,15 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/cards/new",
+					"raw": "http://localhost:8080/api/cards",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
-						"cards",
-						"new"
+						"cards"
 					]
 				}
 			},
@@ -364,7 +441,13 @@
 			"name": "UpdateStateShoppingCard",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "{{token}}",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"state\" : \"active\"\n}",
@@ -375,18 +458,24 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/cards/10/state",
+					"raw": "http://localhost:8080/api/cards/10/state",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"cards",
 						"10",
 						"state"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -396,18 +485,30 @@
 			"name": "GetOrders",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/orders",
+					"raw": "http://localhost:8080/api/orders",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"orders"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -417,19 +518,31 @@
 			"name": "GetOrder",
 			"request": {
 				"method": "GET",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/orders/1",
+					"raw": "http://localhost:8080/api/orders/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"orders",
 						"1"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -439,7 +552,13 @@
 			"name": "CreateOrder",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"address\": \"Address 1231\",\n    \"sCardId\": 1,\n    \"userId\": 1,\n    \"state\": \"completed\",\n    \"creationDate\": \"01/01/2022\",\n    \"completedDate\": \"01/01/2022\",\n    \"dvdIds\": \"1,2,3,4,5,6\"\n}",
@@ -450,17 +569,22 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/orders/new",
+					"raw": "http://localhost:8080/api/orders",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
-						"orders",
-						"new"
+						"orders"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
@@ -470,7 +594,13 @@
 			"name": "UpdateStateOrder",
 			"request": {
 				"method": "POST",
-				"header": [],
+				"header": [
+					{
+						"key": "token",
+						"value": "ee5d36380c0a2239e216f924c9e63a9f",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "raw",
 					"raw": "{\n    \"state\" : \"cancelled\"\n}",
@@ -481,22 +611,55 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/DVDManagementSoftware_war_exploded/api/orders/1/state",
+					"raw": "http://localhost:8080/api/orders/1/state",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"DVDManagementSoftware_war_exploded",
 						"api",
 						"orders",
 						"1",
 						"state"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
 					]
 				}
 			},
 			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "ee5d36380c0a2239e216f924c9e63a9f",
+			"type": "string"
 		}
 	]
 }
